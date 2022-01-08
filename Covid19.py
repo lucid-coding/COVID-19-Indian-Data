@@ -7,7 +7,12 @@ ctx = ssl.create_default_context()
 ctx.check_hostname = False
 ctx.verify_mode = ssl.CERT_NONE
 
-def caps(name):
+def caps(name : str) -> str :
+    """
+    A function that modifies name
+    ---
+    name : str
+    """
     if len(name.split())==1:
         return name.capitalize()
     else:
@@ -16,19 +21,21 @@ def caps(name):
         return final
 
 def State():
+    """
+    A function that finds a place/state
+    ---
+    Arguments -> None
+    """
+    
     url='https://api.covid19india.org/data.json'
     print('Retrieving  data...wait a moment')
     uh=urllib.request.urlopen(url, context=ctx)
     data=uh.read().decode()
     js=json.loads(data)
 
-
-    place=[]
-    for i in js['statewise']:
-        state=i['state']
-        place.append(state)
-        print(state)
-
+    place = [i for i in js["statewise"]]
+    print('\n'.join(place))
+    
     def inputs():
       n=input('\n\nEnter the states from above list to get the results:')
       n=caps(n)
@@ -61,7 +68,12 @@ def district(n):
         print(i)
         districts.append(i)
 
-    def dist_inputs_and_result():
+    def dist_inputs_and_result() -> None:
+      """
+      A first class function that shows the stats of the api call.
+      ---
+      Arguments -> None
+      """
       m=input('\n\nEnter the Districts from above list to get the results:')
       m=caps(m)
       print('Confirmed cases:', js[n]['districtData'][m]['confirmed'])
